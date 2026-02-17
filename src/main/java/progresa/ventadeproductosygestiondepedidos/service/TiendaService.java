@@ -33,8 +33,14 @@ public class TiendaService {
         carritoRepo.save(carrito);
     }
 
-    public Pedido confirmarPedido(Long userId, String metodoPago) {
-        Carrito carrito = carritoRepo.findByUsuarioId(userId).orElseThrow();
+        public Pedido confirmarPedido(Long userId, String metodoPago) {
+        Carrito carrito = carritoRepo.findByUsuarioId(userId)
+                .orElseThrow(() -> new RuntimeException("Carrito no encontrado para el usuario: " + userId));
+
+        if (carrito.getItems() == null || carrito.getItems().isEmpty()) {
+            throw new RuntimeException("No se puede confirmar un pedido con el carrito vacío");
+        }
+
         Pedido pedido = new Pedido();
         pedido.setUsuario(carrito.getUsuario());
 
@@ -43,10 +49,13 @@ public class TiendaService {
         ).collect(Collectors.toList());
 
         pedido.setDetalles(detalles);
+
         pedido.setTotal(detalles.stream().mapToDouble(d -> d.getPrecioVenta() * d.getCantidad()).sum());
+
         pedido.setPago(new Pago(null, metodoPago, "PAGADO", pedido));
 
         carrito.getItems().clear();
+
         return pedidoRepo.save(pedido);
     }
 }

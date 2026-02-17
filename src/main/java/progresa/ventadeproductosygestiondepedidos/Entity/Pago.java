@@ -19,5 +19,6 @@ public class Pago {
     private String metodo;
     private String estado;
     @OneToOne @JoinColumn(name = "pedido_id")
+    @JsonBackReference
     private Pedido pedido;
 }
