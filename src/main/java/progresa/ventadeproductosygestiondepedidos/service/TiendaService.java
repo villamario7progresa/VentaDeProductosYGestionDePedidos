@@ -3,12 +3,14 @@ package progresa.ventadeproductosygestiondepedidos.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import progresa.ventadeproductosygestiondepedidos.Entity.Carrito;
-import progresa.ventadeproductosygestiondepedidos.Entity.Producto;
+import progresa.ventadeproductosygestiondepedidos.Entity.*;
 import progresa.ventadeproductosygestiondepedidos.dao.CarritoRepository;
 import progresa.ventadeproductosygestiondepedidos.dao.PedidoRepository;
 import progresa.ventadeproductosygestiondepedidos.dao.ProductoRepository;
 import progresa.ventadeproductosygestiondepedidos.dao.UsuarioRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
